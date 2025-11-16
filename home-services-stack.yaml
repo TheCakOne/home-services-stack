@@ -2,13 +2,17 @@
     adguard:
       container_name: home-services-adguard
       restart: unless-stopped
-      image: adguard/adguardhome
+      image: adguard/adguardhome:latest
       volumes:
         - ./docker-volumes/home-services-stack-adguard-workdir:/opt/adguardghome/work
         - ./docker-volumes/home-services-stack-adguard-configdir:/opt/adguardhome/conf
+      environment:
+       - PUID=1000
+       - PGID=1000
+       - TZ=Europe/London
       ports:
-        - 192.168.10.17:53:53/tcp
-        - 192.168.10.17:53:53/udp
+        - 192.168.10.11:53:53/tcp
+        - 192.168.10.11:53:53/udp
         - 80:80/tcp
         - 443:443/tcp
         - 443:443/udp
@@ -19,3 +23,20 @@
         - 8853:8853/udp
         - 5443:5443/tcp 
         - 5443:5443/udp
+      
+ services:
+    NginxProxyManager:
+      container_name: home-services-nginxproxymanager
+      restart: unless-stopped
+      image: jc21/nginx-proxy-manager:latest
+      volumes:
+        - ./docker-volumes/home-services-stack-nginxproxymanager-data:/data
+        - ./docker-volumes/home-services-stack-nginxproxymanager-lets-encrypt:/etc/letsencrypt
+      environment:
+       - PUID=1000
+       - PGID=1000
+       - TZ=Europe/London
+      ports:
+         - '8080:80' # Public HTTP Port
+         - '8443:443' # Public HTTPS Port
+         - '81:81' # Admin Web Port
