@@ -24,7 +24,6 @@
         - 5443:5443/tcp 
         - 5443:5443/udp
       
- services:
     NginxProxyManager:
       container_name: home-services-nginxproxymanager
       restart: unless-stopped
@@ -37,6 +36,6 @@
        - PGID=1000
        - TZ=Europe/London
       ports:
-         - '8080:80' # Public HTTP Port
-         - '8443:443' # Public HTTPS Port
-         - '81:81' # Admin Web Port
+         - 8080:80 # Public HTTP Port
+         - 8443:443 # Public HTTPS Port
+         - 81:81 # Admin Web Port
