@@ -39,3 +39,24 @@
          - 8080:80 # Public HTTP Port
          - 8443:443 # Public HTTPS Port
          - 81:81 # Admin Web Port
+
+    UnifiNetworkManager:
+      Container_name: home-services-UnifiNetworkApplication
+      restart: unless-stopped
+      image: lscr.io/linuxserver/unifi-network-application:latest
+      volumes: 
+        - ./docker-volumes/home-services-stack-UnifiNetworkManager/config:config
+      environment:
+        - PUID=1000
+        - PGID=1000
+        - tz=Europe/London
+      ports:
+        - 8443:8443
+        - 3478:3478/udp
+        - 10001:10001/udp
+        - 8080:8080
+        - 1900:1900/udp #optional
+        - 8843:8843 #optional
+        - 8880:8880 #optional
+        - 6789:6789 #optional
+        - 5514:5514/udp #optional 
