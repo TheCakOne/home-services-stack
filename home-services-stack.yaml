@@ -5,6 +5,8 @@ services:
     container_name: home-services-adguard
     image: adguard/adguardhome:latest
     restart: unless-stopped
+    labels:
+      - "com.centurylinklabs.watchtower.enable=false"
     environment:
       - PUID=1000
       - PGID=1000
@@ -26,6 +28,8 @@ services:
     container_name: home-services-nginxproxymanager
     image: jc21/nginx-proxy-manager:latest
     restart: unless-stopped
+    labels:
+      - "com.centurylinklabs.watchtower.enable=false"
     environment:
       - PUID=1000
       - PGID=1000
@@ -57,6 +61,8 @@ services:
     container_name: unifi-network-application
     image: lscr.io/linuxserver/unifi-network-application:latest
     restart: unless-stopped
+    labels:
+      - "com.centurylinklabs.watchtower.enable=false"
     environment:
       - PUID=1000
       - PGID=1000
