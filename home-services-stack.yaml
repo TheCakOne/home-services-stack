@@ -94,3 +94,5 @@ services:
       - ./docker-volumes/home-services-stack-uptimekuma-data:/app/data
     ports:
       - 3001:3001/tcp
+    dns:
+      - 192.168.10.11
