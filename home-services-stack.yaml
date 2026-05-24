@@ -1,5 +1,11 @@
 version: '3.9'
 
+networks:
+  proxy:
+    external: true
+  unifi:
+    internal: true
+
 services:
   adguard:
     container_name: home-services-adguard
@@ -23,6 +29,8 @@ services:
       - 8853:8853/udp
       - 5443:5443/tcp
       - 5443:5443/udp
+    networks:
+      - proxy
 
   NginxProxyManager:
     container_name: home-services-nginxproxymanager
@@ -41,6 +49,8 @@ services:
       - 80:80 # Public HTTP Port
       - 443:443 # Public HTTPS Port
       - 81:81 # Admin Web Port
+    networks:
+      - proxy
 
   unifi-db:
     container_name: unifi-db
@@ -56,6 +66,8 @@ services:
     volumes:
       - ./docker-volumes/home-services-stack-unifi-db-data:/data/db
       - ./docker-volumes/home-services-stack-unifi-db-init/init-mongo.sh:/docker-entrypoint-initdb.d/init-mongo.sh:ro
+    networks:
+      - unifi
 
   unifi-network-application:
     container_name: unifi-network-application
@@ -87,6 +99,9 @@ services:
       - 8880:8880/tcp
       - 6789:6789/tcp
       - 5514:5514/udp
+    networks:
+      - proxy
+      - unifi
 
   UptimeKuma:
     container_name: home-services-uptimekuma
@@ -102,3 +117,5 @@ services:
       - 3001:3001/tcp
     dns:
       - 192.168.10.11
+    networks:
+      - proxy
